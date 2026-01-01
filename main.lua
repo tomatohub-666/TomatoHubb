@@ -1,2 +1,2 @@
-getgenv().Key = "NHẬP_KEY_VÀO_ĐÂY"
-loadstring(game:HttpGet("https://raw.githubusercontent.com/skibidi/TomatoHub/main/Main.lua"))()
+getgenv().Key = "DÁN_KEY_VÀO_ĐÂY"
+loadstring(game:HttpGet("https://raw.githubusercontent.com/tomatohub-666/TomatoHubb/main/Main.lua"))()
