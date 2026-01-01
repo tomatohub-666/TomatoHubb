@@ -1,8 +1,18 @@
--- [[ TOMATO HUB - OFFICIAL LOADER 2026 ]]
+-- [[ TOMATO HUB - PROTECTED LOADER 2026 ]]
 
+-- Hàm giải mã link (Giúp giấu link GitHub của bạn khỏi mắt thường)
+local function Decrypt(data)
+    local str = ""
+    for i = 1, #data, 2 do
+        str = str .. string.char(tonumber(data:sub(i, i + 1), 16))
+    end
+    return str
+end
+
+-- Dữ liệu đã được mã hóa Hex
 local Link_Get_Key = "https://link-center.net/2612670/N024m9czsWoj"
-local Raw_Keys = "https://raw.githubusercontent.com/tomatohub-666/TomatoHubb/main/Keys.lua"
-local Raw_Main = "https://raw.githubusercontent.com/tomatohub-666/TomatoHubb/main/main.lua"
+local Raw_Keys = Decrypt("68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f746f6d61746f6875622d3636362f546f6d61746f487562622f6d61696e2f4b6579732e6c7561")
+local Raw_Main = Decrypt("68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f746f6d61746f6875622d3636362f546f6d61746f487562622f6d61696e2f6d61696e2e6c7561")
 
 local function Notify(title, text)
     game:GetService("StarterGui"):SetCore("SendNotification", {
@@ -12,13 +22,21 @@ local function Notify(title, text)
     })
 end
 
+-- Chống soi code cơ bản
+local function AntiSoi()
+    local _ = "TomatoHub_" .. math.random(100,999)
+    if getgenv()[_] then return end
+    getgenv()[_] = true
+end
+AntiSoi()
+
 -- 1. Tải dữ liệu Key
 local success, KeyData = pcall(function()
     return loadstring(game:HttpGet(Raw_Keys))()
 end)
 
 if not success or type(KeyData) ~= "table" then
-    game.Players.LocalPlayer:Kick("\n🍅 Tomato Hub\nLỗi: Không thể tải danh sách Key!\nHãy kiểm tra lại file Keys.lua")
+    game.Players.LocalPlayer:Kick("\n🍅 Tomato Hub\nLỗi: Không thể kết nối Server!")
     return
 end
 
@@ -32,12 +50,12 @@ if userKey and KeyData[userKey] then
     -- Kiểm tra hết hạn
     if currentTime > info.Expire then
         if setclipboard then setclipboard(Link_Get_Key) end
-        game.Players.LocalPlayer:Kick("\n🍅 Tomato Hub\nKey của bạn đã hết hạn!\nLink Get Key đã được copy.")
+        game.Players.LocalPlayer:Kick("\n🍅 Tomato Hub\nKey của bạn đã hết hạn!")
         return
     end
 
     -- Đăng nhập thành công
-    Notify("🍅 THÀNH CÔNG", "Rank: " .. info.Type .. "\nĐang tải script chính...")
+    Notify("🍅 THÀNH CÔNG", "Rank: " .. info.Type .. "\nĐang khởi chạy...")
     
     -- 3. Chạy file main.lua
     local main_success, main_code = pcall(function()
@@ -47,13 +65,13 @@ if userKey and KeyData[userKey] then
     if main_success then
         loadstring(main_code)()
     else
-        warn("🍅 Lỗi: Không thể tải nội dung main.lua")
+        warn("🍅 Lỗi: 0x01")
     end
 else
     -- Nếu sai Key hoặc chưa nhập Key
     if setclipboard then setclipboard(Link_Get_Key) end
-    Notify("🍅 THÔNG BÁO", "Vui lòng nhập Key vào _G.Key trước khi chạy!")
+    Notify("🍅 THÔNG BÁO", "Link Get Key đã được copy!")
     
     task.wait(2)
-    game.Players.LocalPlayer:Kick("\n🍅 Tomato Hub 🍅\nSai Key hoặc chưa nhập Key!\nLink Get Key đã được copy vào bộ nhớ của bạn.")
+    game.Players.LocalPlayer:Kick("\n🍅 Tomato Hub 🍅\nSai Key! Vui lòng dán link vào trình duyệt để lấy key.")
 end
