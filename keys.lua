@@ -1,7 +1,7 @@
 -- [[ TOMATO HUB - KEYS CONFIGURATION ]]
 
 local timeData = os.date("!*t", os.time() + 7 * 3600) -- Lấy giờ Việt Nam (GMT+7)
-local hourKey = "TMH_FREE_HOUR_" .. timeData.hour .. "_" .. timeData.day .. "_" .. timeData.month
+local hourKey = "TMH_FREE_HOUR_1_0" .. timeData.hour .. "_" .. timeData.day .. "_" .. timeData.month
 
 return {
     -- [KEY TỰ ĐỘNG THEO GIỜ - KHÔNG CẦN SỬA]
