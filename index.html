@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tomato Hub - Get Key</title>
+    <style>
+        body { background: #1a1a1a; color: white; text-align: center; font-family: Arial; padding-top: 50px; }
+        .key-box { border: 2px solid #ff4d4d; padding: 20px; display: inline-block; border-radius: 10px; }
+        button { background: #ff4d4d; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🍅 TOMATO HUB GET KEY 🍅</h1>
+    <div class="key-box">
+        <p>Key của bạn hôm nay là:</p>
+        <h2 id="key">Đang lấy key...</h2>
+        <button onclick="copyKey()">Sao Chép Key</button>
+    </div>
+
+    <script>
+        // Tạo key ngẫu nhiên thay đổi theo giờ
+        const date = new Date();
+        const weekNumber = Math.ceil(date.getDate() / 7); 
+        const generatedKey = "TMH_FREE_HOUR_" + weekNumber + "_" + date.getMonth();
+        document.getElementById("key").innerText = generatedKey;
+
+        function copyKey() {
+            navigator.clipboard.writeText(generatedKey);
+            alert("Đã sao chép!");
+        }
+    </script>
+</body>
+</html>
