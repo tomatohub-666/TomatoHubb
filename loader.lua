@@ -6,11 +6,20 @@ local version = os.time()
 local Raw_Main = "https://raw.githubusercontent.com/tomatohub-666/TomatoHubb/main/main.lua?v=" .. version
 
 local success, err = pcall(function()
-    loadstring(game:HttpGet(Raw_Main))()
+    loadstring(game:HttpGet(Raw_main))()
 end)
 
 if success then
     print("Tomato Hub: Da tai thanh cong!")
 else
     warn("Loi khi tai Main Script: " .. tostring(err))
-end
+-- Sửa lại đoạn cuối của loader.lua
+local success, err = pcall(function()
+    local content = game:HttpGet(Raw_Main)
+    local func = loadstring(content)
+    if func then
+        func()
+    else
+        warn("Khong the bien dich code trong main.lua")
+    end
+end)
