@@ -30,5 +30,5 @@ if KeyData[_G.Key] then
     end
 else
     print("Key ban nhap la: " .. tostring(_G.Key))
-    game.Players.LocalPlayer:Kick("Sai Key! Vui long lay key tai: https://boost.ink/mka12")
+    game.Players.LocalPlayer:Kick("Sai Key! Vui long lay key tai: https://link-center.net/2612670/N024m9czsWoj")
 end
