@@ -1,33 +1,34 @@
--- [[ TOMATO HUB - DEBUG LOADER ]]
-local Link_Get_Key = "https://link-center.net/2612670/N024m9czsWoj" -- Thay bằng link của bạn
+-- [[ TOMATO HUB - TESTER ]]
+print("--- DANG KIEM TRA LOADER ---")
+
+_G.Key = _G.Key or "" -- Tránh lỗi nếu bạn quên nhập Key
+
 local Raw_Keys = "https://raw.githubusercontent.com/tomatohub-666/TomatoHubb/main/keys.lua"
 local Raw_Main = "https://raw.githubusercontent.com/tomatohub-666/TomatoHubb/main/main.lua"
 
-local userKey = _G.Key
-
+-- 1. Thu tai file Keys
 local success, KeyData = pcall(function()
     return loadstring(game:HttpGet(Raw_Keys))()
 end)
 
 if not success then
-    game.Players.LocalPlayer:Kick("Loi: Khong the tai file Keys.lua tu GitHub!")
+    warn("Loi: Khong the ket noi den GitHub de lay Key!")
     return
 end
 
-if userKey and KeyData[userKey] then
-    local info = KeyData[userKey]
-    local currentTime = os.time()
-
-    if type(info.Expire) == "number" and currentTime > info.Expire then
-        setclipboard(Link_Get_Key)
-        game.Players.LocalPlayer:Kick("Key het han! Link da copy vao bo nho.")
-        return
+-- 2. Kiem tra Key
+if KeyData[_G.Key] then
+    print("Key dung! Dang tai Main Script...")
+    
+    -- 3. Tai Main Script
+    local mainSuccess, err = pcall(function()
+        loadstring(game:HttpGet(Raw_Main))()
+    end)
+    
+    if not mainSuccess then
+        warn("Loi trong file Main.lua: " .. tostring(err))
     end
-
-    -- Nếu mọi thứ OK, tải script chính
-    loadstring(game:HttpGet(Raw_Main))()
 else
-    -- Sai Key
-    setclipboard(Link_Get_Key)
-    game.Players.LocalPlayer:Kick("Sai Key hoac chua nhap Key! Hay nhap vao _G.Key")
+    print("Key ban nhap la: " .. tostring(_G.Key))
+    game.Players.LocalPlayer:Kick("Sai Key! Vui long lay key tai: https://boost.ink/mka12")
 end
